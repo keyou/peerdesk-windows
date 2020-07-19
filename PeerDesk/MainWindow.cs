@@ -16,7 +16,7 @@ namespace PeerDesk
 {
     public partial class MainWindow : Form
     {
-        private const String host_ = "127.0.0.1";
+        private String host_;
         private const int port_ = 13334;
         private const int screen_width_ = 1920;
         private const int screen_height_ = 1080;
@@ -150,17 +150,21 @@ namespace PeerDesk
             try
             {
                 Debug.WriteLine("ip: " + textIp.Text);
+                host_ = textIp.Text;
                 Text = "PeerDesk: Connecting...";
                 if(!channel_.Connect(textIp.Text, port_))
                 {
                     throw new Exception("Connect failed");
                 }
-                var process = Process.Start("mpv.exe",
-                    string.Format("--wid={0} --autofit-larger={1} tcp://{2}:13333 --no-keepaspect --no-keepaspect-window " +
+                var startInfo = new ProcessStartInfo();
+                startInfo.FileName = "mpv.dll";
+                startInfo.Arguments = string.Format("--wid={0} --autofit-larger={1} tcp://{2}:13333 --no-keepaspect --no-keepaspect-window " +
                     "--profile=low-latency --video-latency-hacks=yes --no-config --input-vo-keyboard=no --no-input-cursor --idle=yes " +
-                    "--osc=no --no-cache --untimed --no-correct-pts --fps=30 ", Handle, 192 * 7, host_));
+                    "--osc=no --no-cache --untimed --no-correct-pts --fps=30 ", Handle, 192 * 7, host_);
+                startInfo.UseShellExecute = false;
+                var process = Process.Start(startInfo);
                 Text = string.Format("PeerDesk: tcp://{1}:{2} ({0})", Handle, host_, port_);
-                Debug.WriteLine("mpv args: " + process.StartInfo.Arguments);
+                Debug.WriteLine("mpv args: " + startInfo.Arguments);
                 textIp.ReadOnly = true;
                 textIp.Enabled = false;
                 this.ActiveControl = null;

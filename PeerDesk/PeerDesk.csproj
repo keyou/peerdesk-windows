@@ -101,7 +101,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="mpv.exe">
+    <Content Include="mpv.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="penrose-square.ico" />
