@@ -16,7 +16,7 @@ namespace PeerDesk
 {
     public partial class MainWindow : Form
     {
-        private const String host_ = "10.23.12.166";//"192.168.147.129";//
+        private const String host_ = "127.0.0.1";
         private const int port_ = 13334;
         private const int screen_width_ = 1920;
         private const int screen_height_ = 1080;
